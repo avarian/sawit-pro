@@ -21,11 +21,13 @@ func main() {
 
 func newServer() *handler.Server {
 	dbDsn := os.Getenv("DATABASE_URL")
+	secret := os.Getenv("SECRET")
 	var repo repository.RepositoryInterface = repository.NewRepository(repository.NewRepositoryOptions{
 		Dsn: dbDsn,
 	})
 	opts := handler.NewServerOptions{
 		Repository: repo,
+		Secret: secret,
 	}
 	return handler.NewServer(opts)
 }

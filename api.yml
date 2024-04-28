@@ -17,39 +17,205 @@ info:
 servers:
   - url: http://localhost
 paths:
-  /hello:
-    get:
-      summary: This is just a test endpoint to get you started. Please delete this endpoint.
-      operationId: hello
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: integer
+  /user:
+    post:
+      summary: Registers User
+      description: Registers user
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone_number
+                - full_name
+                - password
+              properties:
+                phone_number:
+                  type: string
+                full_name:
+                  type: string
+                password:
+                  type: string
       responses:
         '200':
-          description: Test return
+          description: Success
           content:
             application/json:    
               schema:
-                $ref: "#/components/schemas/HelloResponse"
-        '404':
-          description: Not found
+                $ref: "#/components/schemas/RegisterResponse"
+        '400':
+          description: Validation error
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorValidationResponse"
+        '500':
+          description: Internal error
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    get:
+      summary: Get User Profile
+      description: Get current user profile
+      operationId: get-user
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ErrorForbiddenResponse"
+        '500':
+          description: Internal error
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      summary: Update User
+      description: Update current user data
+      operationId: update-user
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/User"
+        '403':
+          description: Forbidden
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/ErrorForbiddenResponse"
+        '409':
+          description: Conflict
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/ErrorConflictResponse"
+        '500':
+          description: Internal error
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /login:
+    post:
+      summary: User login
+      description: User login
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone_number
+                - password
+              properties:
+                phone_number:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorValidationResponse"
+        '500':
+          description: Internal error
+          content:
+            application/json:   
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
-    HelloResponse:
+    User:
+      type: object
+      required:
+        - full_name
+        - phone_number
+      properties:
+        full_name:
+          type: string
+        phone_number:
+          type: string
+    RegisterResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+    LoginResponse:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+    ErrorResponse:
       type: object
       required:
         - message
       properties:
         message:
           type: string
-    ErrorResponse:
+    ErrorValidationResponse:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+    ErrorForbiddenResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    ErrorConflictResponse:
       type: object
       required:
         - message
