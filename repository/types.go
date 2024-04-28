@@ -4,22 +4,22 @@ package repository
 import "time"
 
 type CreateUserInput struct {
-	Name     string
-	Phone    string
-	Password string
+	FullName    string
+	PhoneNumber string
+	Password    string
 }
 
 type UpdateUserInput struct {
-	Id    int
-	Name  string
-	Phone string
+	Id          int
+	FullName    string
+	PhoneNumber string
 }
 
 type User struct {
-	Id        int
-	Name      string
-	Phone     string
-	Password  string
-	UpdatedAt time.Time
-	CreatedAt time.Time
+	Id          int
+	FullName    string
+	PhoneNumber string
+	Password    string
+	UpdatedAt   time.Time
+	CreatedAt   time.Time
 }

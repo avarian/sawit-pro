@@ -10,8 +10,8 @@
 /** This is test table. Remove this table and replace with your own tables. */
 CREATE TABLE IF NOT EXISTS users (
 	id serial PRIMARY KEY,
-	name VARCHAR(100) NOT NULL,
-  phone VARCHAR(20) UNIQUE NOT NULL, 
+	full_name VARCHAR(100) NOT NULL,
+  phone_number VARCHAR(20) UNIQUE NOT NULL, 
   password VARCHAR(100) NOT NULL,
   updated_at TIMESTAMP DEFAULT NOW(),
   created_at TIMESTAMP DEFAULT NOW()

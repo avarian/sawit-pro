@@ -65,7 +65,6 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          required: true
           schema:
             type: string
       responses:
@@ -94,7 +93,6 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          required: true
           schema:
             type: string
       requestBody:

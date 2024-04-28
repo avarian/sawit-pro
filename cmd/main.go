@@ -27,7 +27,7 @@ func newServer() *handler.Server {
 	})
 	opts := handler.NewServerOptions{
 		Repository: repo,
-		Secret: secret,
+		Secret:     secret,
 	}
 	return handler.NewServer(opts)
 }
